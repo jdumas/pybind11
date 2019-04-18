@@ -187,6 +187,10 @@ function(pybind11_add_module target_name)
   # Make sure C++11/14 are enabled
   target_compile_options(${target_name} PUBLIC ${PYBIND11_CPP_STANDARD})
 
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    target_compile_options(${target_name} PUBLIC -fsized-deallocation)
+  endif()
+
   if(ARG_NO_EXTRAS)
     return()
   endif()

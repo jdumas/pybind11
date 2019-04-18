@@ -995,14 +995,14 @@ void call_operator_delete(T *p, size_t s, size_t) { T::operator delete(p, s); }
 
 inline void call_operator_delete(void *p, size_t s, size_t a) {
     (void)s; (void)a;
-// #if defined(PYBIND11_CPP17)
-//     if (a > __STDCPP_DEFAULT_NEW_ALIGNMENT__)
-//         ::operator delete(p, s, std::align_val_t(a));
-//     else
-//         ::operator delete(p, s);
-// #else
+#if defined(PYBIND11_CPP17)
+    if (a > __STDCPP_DEFAULT_NEW_ALIGNMENT__)
+        ::operator delete(p, s, std::align_val_t(a));
+    else
+        ::operator delete(p, s);
+#else
     ::operator delete(p);
-// #endif
+#endif
 }
 
 NAMESPACE_END(detail)
